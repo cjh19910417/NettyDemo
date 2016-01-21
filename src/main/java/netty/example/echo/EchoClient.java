@@ -53,11 +53,11 @@ public final class EchoClient {
             sslCtx = null;
         }
 
-        // Configure the client.
+        // 配置客户端.
         EventLoopGroup group = new NioEventLoopGroup();
         try {
-            Bootstrap b = new Bootstrap();
-            b.group(group)
+            Bootstrap bootstrap = new Bootstrap();
+            bootstrap.group(group)
              .channel(NioSocketChannel.class)
              .option(ChannelOption.TCP_NODELAY, true)
              .handler(new ChannelInitializer<SocketChannel>() {
@@ -72,10 +72,10 @@ public final class EchoClient {
                  }
              });
 
-            // Start the client.
-            ChannelFuture f = b.connect(HOST, PORT).sync();
+            // 开始连接server.
+            ChannelFuture f = bootstrap.connect(HOST, PORT).sync();
 
-            // Wait until the connection is closed.
+            // 阻塞直至connection被关闭
             f.channel().closeFuture().sync();
         } finally {
             // Shut down the event loop to terminate all threads.

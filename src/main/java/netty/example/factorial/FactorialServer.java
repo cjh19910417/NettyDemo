@@ -26,8 +26,7 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 /**
- * Receives a sequence of integers from a {@link FactorialClient} to calculate
- * the factorial of the specified integer.
+ * 从{@link FactorialClient} 接收系列整型数,再对指定数字计算阶乘.
  */
 public final class FactorialServer {
 

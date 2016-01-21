@@ -41,15 +41,15 @@ public class FactorialClientInitializer extends ChannelInitializer<SocketChannel
             pipeline.addLast(sslCtx.newHandler(ch.alloc(), FactorialClient.HOST, FactorialClient.PORT));
         }
 
-        // Enable stream compression (you can remove these two if unnecessary)
+        // 添加数据流压缩&解压Enable stream compression (you can remove these two if unnecessary)
         pipeline.addLast(ZlibCodecFactory.newZlibEncoder(ZlibWrapper.GZIP));
         pipeline.addLast(ZlibCodecFactory.newZlibDecoder(ZlibWrapper.GZIP));
 
-        // Add the number codec first,
+        // 添加数字编码Add the number codec first,
         pipeline.addLast(new BigIntegerDecoder());
         pipeline.addLast(new NumberEncoder());
 
-        // and then business logic.
+        // 添加业务逻辑handler - and then business logic.
         pipeline.addLast(new FactorialClientHandler());
     }
 }

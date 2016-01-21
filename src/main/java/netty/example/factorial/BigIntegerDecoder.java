@@ -24,6 +24,8 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
+ * 解码,第一位是'Magic Number'('F'或者0x46),
+ * 第二位是一个32-bit的整型,用来记录data的length,紧接着的就是真正的data(BigInteger)
  * Decodes the binary representation of a {@link BigInteger} prepended
  * with a magic number ('F' or 0x46) and a 32-bit integer length prefix into a
  * {@link BigInteger} instance.  For example, { 'F', 0, 0, 0, 1, 42 } will be

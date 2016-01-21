@@ -22,11 +22,13 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 /**
  * Handler implementation for the echo server.
  */
-@Sharable
+
+@Sharable//标识这类的实例之间可以在 channel 里面共享
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        System.out.println("i'm server-side ,get msg -> " + msg);
         ctx.write(msg);
     }
 

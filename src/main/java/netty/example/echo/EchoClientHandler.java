@@ -39,21 +39,40 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
+    /**
+     * channel建立,writeAndFlush
+     * @param ctx
+     */
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         ctx.writeAndFlush(firstMessage);
     }
 
+    /**
+     * channel读取,write
+     * @param ctx
+     * @param msg
+     */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        System.out.println("i'm client-side ,get msg -> " + msg);
         ctx.write(msg);
     }
 
+    /**
+     * channel读取完毕,flush
+     * @param ctx
+     */
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
        ctx.flush();
     }
 
+    /**
+     * 异常处理
+     * @param ctx
+     * @param cause
+     */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         // Close the connection when an exception is raised.

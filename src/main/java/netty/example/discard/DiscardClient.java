@@ -29,6 +29,7 @@ import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 
 /**
  * Keeps sending random data to the specified address.
+ * 不断发送随机数据到指定的地址
  */
 public final class DiscardClient {
 
@@ -63,10 +64,10 @@ public final class DiscardClient {
                  }
              });
 
-            // Make the connection attempt.
+            // 尝试连接server
             ChannelFuture f = b.connect(HOST, PORT).sync();
 
-            // Wait until the connection is closed.
+            // 阻塞直至connection被关闭 Wait until the connection is closed.
             f.channel().closeFuture().sync();
         } finally {
             group.shutdownGracefully();

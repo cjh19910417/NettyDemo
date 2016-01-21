@@ -22,6 +22,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import java.math.BigInteger;
 
 /**
+ * Êı¾İ±àÂë
  * Encodes a {@link Number} into the binary representation prepended with
  * a magic number ('F' or 0x46) and a 32-bit length prefix.  For example, 42
  * will be encoded to { 'F', 0, 0, 0, 1, 42 }.
