@@ -19,9 +19,14 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.math.BigInteger;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Handler for a server-side channel.  This handler maintains stateful
+ *
+ * Handler for a server-side channel.
+ * 这个handler维护了一个有状态的成员变量(factorial),一个handler实例只覆盖一个channel,
+ * 当有多个channel时必须创建多个handler实例去避免发生竞态条件.
+ * This handler maintains stateful
  * information which is specific to a certain channel using member variables.
  * Therefore, an instance of this handler can cover only one channel.  You have
  * to create a new handler instance whenever you create a new channel and insert
@@ -34,9 +39,10 @@ public class FactorialServerHandler extends SimpleChannelInboundHandler<BigInteg
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, BigInteger msg) throws Exception {
-        // Calculate the cumulative factorial and send it to the client.
+        // 计算发送过来的数字和之前乘积的积,并发送计算结果回客户端.Calculate the cumulative factorial and send it to the client.
         lastMultiplier = msg;
         factorial = factorial.multiply(msg);
+        TimeUnit.MILLISECONDS.sleep(10);
         ctx.writeAndFlush(factorial);
     }
 

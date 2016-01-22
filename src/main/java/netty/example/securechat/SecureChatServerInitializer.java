@@ -47,9 +47,10 @@ public class SecureChatServerInitializer extends ChannelInitializer<SocketChanne
         pipeline.addLast(sslCtx.newHandler(ch.alloc()));
 
         // On top of the SSL handler, add the text line codec.
+        //换行切分字符串
         pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
-        pipeline.addLast(new StringDecoder());
-        pipeline.addLast(new StringEncoder());
+        pipeline.addLast(new StringDecoder());//字符串解码
+        pipeline.addLast(new StringEncoder());//字符串编码
 
         // and then business logic.
         pipeline.addLast(new SecureChatServerHandler());

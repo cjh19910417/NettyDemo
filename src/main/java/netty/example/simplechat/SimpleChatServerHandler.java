@@ -16,7 +16,7 @@ public class SimpleChatServerHandler extends SimpleChannelInboundHandler<String>
         Channel incoming = ctx.channel();
 
         // Broadcast a message to multiple Channels
-        channels.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 加入\n");
+        channels.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 鍔犲叆\n");
 
         channels.add(ctx.channel());
     }
@@ -26,7 +26,7 @@ public class SimpleChatServerHandler extends SimpleChannelInboundHandler<String>
         Channel incoming = ctx.channel();
 
         // Broadcast a message to multiple Channels
-        channels.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 离开\n");
+        channels.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " 绂诲紑\n");
 
         // A closed Channel is automatically removed from ChannelGroup,
         // so there is no need to do "channels.remove(ctx.channel());"
@@ -47,19 +47,19 @@ public class SimpleChatServerHandler extends SimpleChannelInboundHandler<String>
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception { // (5)
         Channel incoming = ctx.channel();
-        System.out.println("SimpleChatClient:"+incoming.remoteAddress()+"在线");
+        System.out.println("SimpleChatClient:"+incoming.remoteAddress()+"鍦ㄧ嚎");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception { // (6)
         Channel incoming = ctx.channel();
-        System.out.println("SimpleChatClient:"+incoming.remoteAddress()+"掉线");
+        System.out.println("SimpleChatClient:"+incoming.remoteAddress()+"鎺夌嚎");
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) { // (7)
         Channel incoming = ctx.channel();
-        System.out.println("SimpleChatClient:"+incoming.remoteAddress()+"异常");
-        // 当出现异常就关闭连接
+        System.out.println("SimpleChatClient:"+incoming.remoteAddress()+"寮傚父");
+        // 褰撳嚭鐜板紓甯稿氨鍏抽棴杩炴帴
         cause.printStackTrace();
         ctx.close();
     }

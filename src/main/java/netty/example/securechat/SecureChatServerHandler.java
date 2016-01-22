@@ -24,6 +24,8 @@ import io.netty.handler.ssl.SslHandler;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetAddress;
 
@@ -32,12 +34,15 @@ import java.net.InetAddress;
  */
 public class SecureChatServerHandler extends SimpleChannelInboundHandler<String> {
 
+    private final static Logger logger = LoggerFactory.getLogger(SecureChatServerHandler.class);
+
     static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
         // Once session is secured, send a greeting and register the channel to the global channel
         // list so the channel received the messages from others.
+        // 一旦会话被加密成功,发送一条欢迎消息并把当前channel注册缓存到全局channels集合里面去.这样才channel才能接受来自其它channel发送的消息.
         ctx.pipeline().get(SslHandler.class).handshakeFuture().addListener(
                 new GenericFutureListener<Future<Channel>>() {
                     @Override
@@ -61,7 +66,7 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
             if (c != ctx.channel()) {
                 c.writeAndFlush("[" + ctx.channel().remoteAddress() + "] " + msg + '\n');
             } else {
-                c.writeAndFlush("[you] " + msg + '\n');
+                c.writeAndFlush("[你] " + msg + '\n');
             }
         }
 
@@ -75,5 +80,10 @@ public class SecureChatServerHandler extends SimpleChannelInboundHandler<String>
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("[{}] 离开了!", ctx.channel().remoteAddress());
     }
 }
